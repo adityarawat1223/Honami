@@ -5,7 +5,6 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 const { token } = require('./config.json');
 const register = require('./register')
 const { EmbedBuilder } = require('discord.js');
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 const commands = [];
 
@@ -40,19 +39,6 @@ for (const folder of commandFolders) {
 	}
 }
 
-
-// const eventsPath = path.join(__dirname, 'events');
-// const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
-
-// for a(const file of eventFiles) {
-// 	const filePath = path.join(eventsPath, file);
-// 	const event = require(filePath);
-// 	if (event.once) {
-// 		client.once(event.name, (...args) => event.execute(...args));
-// 	} else {
-// 		client.on(event.name, (...args) => event.execute(...args));
-// 	}
-// }
 
 
 client.distube

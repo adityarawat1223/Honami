@@ -4,7 +4,8 @@ const { Client, Collection, Events, GatewayIntentBits, Embed } = require('discor
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] });
 const { token } = require('./config.json');
 const register = require('./register')
-const musicevent = require('./musicevent')
+const { EmbedBuilder } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 const commands = [];
 
@@ -38,6 +39,57 @@ for (const folder of commandFolders) {
 		}
 	}
 }
+
+
+// const eventsPath = path.join(__dirname, 'events');
+// const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+// for a(const file of eventFiles) {
+// 	const filePath = path.join(eventsPath, file);
+// 	const event = require(filePath);
+// 	if (event.once) {
+// 		client.once(event.name, (...args) => event.execute(...args));
+// 	} else {
+// 		client.on(event.name, (...args) => event.execute(...args));
+// 	}
+// }
+
+
+client.distube
+	.on('playSong', (queue, song) => {
+
+
+		const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setTitle(` Playing - ${song.name}`).setDescription(`Playing In our Highest quality Enjoy `).setFooter({
+			text: ` Requested By ${song.user.tag}`,
+			iconURL: song.user.displayAvatarURL()
+
+		}).setImage(song.thumbnail).setAuthor({
+			name: `${client.user.tag}`, iconURL: client.user.avatarURL()
+		}).addFields(
+			{ name: 'Likes on Youtube', value: `**${song.likes}**`, inline: true },
+			{ name: 'Song Duration', value: `**${song.formattedDuration}**`, inline: true },
+
+		)
+
+
+
+		queue.textChannel?.send(
+			{ embeds: [exampleEmbed] }
+		)
+	}
+	)
+client.distube.on("addSong", (queue, song) => {
+	
+	
+	if (queue.songs.length <= 1) {
+
+	}
+	else {
+		queue.textChannel.send(
+			`Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}.`
+		)
+	}
+});
 
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;

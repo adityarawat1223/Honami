@@ -34,13 +34,14 @@ module.exports = {
         const query = options.getString("name")
         const num = options.getInteger("number")
         const voicechannel = member.voice.channel
+        const botvc = interaction.guild.members.me.voice.channel
         const subcommand = options.getSubcommand()
 
         if (!voicechannel) {
             return interaction.reply("No")
         }
-        else {
 
+        if (!botvc) {
             try {
                 switch (subcommand) {
                     case "play":
@@ -114,12 +115,12 @@ module.exports = {
                             }
                         }
                         break
-
-
-
-
                 }
             } catch (err) { console.log(err) }
+        }
+
+        else {
+            await interaction.reply({ content: " I am already playing music in a this server", ephemeral: true })
         }
     }
 

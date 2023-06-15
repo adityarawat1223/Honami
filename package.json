@@ -8,6 +8,7 @@
     "dotenv": "^16.1.4",
     "ffmpeg-static": "^4.4.1",
     "libsodium-wrappers": "^0.7.11",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "ytsr": "^3.8.2"
   }
 }

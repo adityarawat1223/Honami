@@ -38,7 +38,7 @@ module.exports = {
         const subcommand = options.getSubcommand()
 
         if (!voicechannel) {
-            return interaction.reply("No")
+            return interaction.reply("Please Join a vc then use this command")
         }
 
         if (!botvc) {

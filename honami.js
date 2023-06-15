@@ -1,10 +1,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, Embed } = require('discord.js');
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] });
+const { Client, Collection, Events, GatewayIntentBits, Embed, ActivityType } = require('discord.js');
 const { token } = require('./config.json');
 const register = require('./register')
 const musicevent = require('./musicevent')
+
+
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates], presence: { status: 'dnd', activities: [{ name: "Bursting TressHouse", type: ActivityType.Competing }] } });
 
 const commands = [];
 
@@ -62,7 +64,8 @@ client.on(Events.InteractionCreate, async interaction => {
 	}
 });
 
-musicevent({client : client})
+
+musicevent({ client: client })
 // register({ commands: commands, token: token })
 // redeploying
 

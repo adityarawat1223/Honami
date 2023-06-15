@@ -10,5 +10,8 @@
     "libsodium-wrappers": "^0.7.11",
     "nodemon": "^2.0.22",
     "ytsr": "^3.8.2"
+  },
+  "engines": {
+    "node": ">=16.9"
   }
 }

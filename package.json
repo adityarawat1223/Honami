@@ -11,6 +11,7 @@
     "libsodium-wrappers": "^0.7.11",
     "node-addon-api": "^6.1.0",
     "nodemon": "^2.0.22",
+    "opusscript": "^0.0.8",
     "ytsr": "^3.8.2"
   },
   "engines": {

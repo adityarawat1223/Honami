@@ -64,6 +64,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 musicevent({client : client})
 // register({ commands: commands, token: token })
+// redeploying
 
 
 client.once(Events.ClientReady, c => {

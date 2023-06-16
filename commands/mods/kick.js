@@ -42,10 +42,10 @@ module.exports = {
 
             if (!reason) {
                 const exampleEmbed = new EmbedBuilder().setAuthor({
-                    name: `${client.user.tag}`, iconURL: client.user.avatarURL()
-                }).setDescription(`**Successfully kicked ${banuser.user.tag} **`).addFields({ name: 'Action performed By', value: `${user.tag}`, inline: true },
+                    name: `${client.user.username}`, iconURL: client.user.avatarURL()
+                }).setDescription(`**Successfully kicked ${banuser.user.username} **`).addFields({ name: 'Action performed By', value: `${user.username}`, inline: true },
                     { name: "Reason", value: `Not provided` }).setFooter({
-                        text: ` Requested By ${user.tag}`,
+                        text: ` Requested By ${user.username}`,
                         iconURL: user.displayAvatarURL()
                     })
                 banuser.kick()
@@ -54,10 +54,10 @@ module.exports = {
 
             else {
                 const exampleEmbed = new EmbedBuilder().setAuthor({
-                    name: `${client.user.tag}`, iconURL: client.user.avatarURL()
-                }).setDescription(`**Successfully Kicked ${banuser.user.tag} **`).addFields({ name: 'Action performed By', value: `${user.tag}`, inline: true },
+                    name: `${client.user.username}`, iconURL: client.user.avatarURL()
+                }).setDescription(`**Successfully Kicked ${banuser.user.username} **`).addFields({ name: 'Action performed By', value: `${user.username}`, inline: true },
                     { name: "Reason", value: `${reason}` }).setFooter({
-                        text: ` Requested By ${user.tag}`,
+                        text: ` Requested By ${user.username}`,
                         iconURL: user.displayAvatarURL()
                     })
                 banuser.kick(banuser)

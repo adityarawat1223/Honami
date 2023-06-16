@@ -69,7 +69,7 @@ client.on("messageCreate", (message) => {
 	if (message.author.bot) {
 		return;
 	}
-	if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == "REPLY") { return false }
+	if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == "Reply") { return false }
 
 	if (message.mentions.has(client.user.id)) {
 		message.reply("Thanks for disturbing me loser but if you want to know use /help to know about my commands");

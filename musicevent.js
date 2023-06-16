@@ -61,7 +61,7 @@ const musicevent = ({ client }) => {
     });
 
     client.distube.on('disconnect', (queue) => {
-        const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setDescription(`**No song To play leaving vc**`)
+        const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setDescription(`** Leaving vc**`)
 
         queue.textChannel.send({ embeds: [exampleEmbed] })
     })

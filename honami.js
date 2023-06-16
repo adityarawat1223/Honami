@@ -6,7 +6,7 @@ const register = require('./register')
 const musicevent = require('./musicevent')
 
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
 
 const commands = [];
 
@@ -63,6 +63,19 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
+
+
+client.on("messageCreate", (message) => {
+	if (message.author.bot) {
+		return;
+	}
+	if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == "REPLY") { return false }
+
+	if (message.mentions.has(client.user.id)) {
+		message.reply("Thanks for disturbing me loser but if you want to know use /help to know about my commands");
+	}
+
+})
 
 
 musicevent({ client: client })

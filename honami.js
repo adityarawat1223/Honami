@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, Embed, ActivityType } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType, MessageType } = require('discord.js');
 const { token } = require('./config.json');
 const register = require('./register')
 const musicevent = require('./musicevent')
@@ -69,7 +69,7 @@ client.on("messageCreate", (message) => {
 	if (message.author.bot) {
 		return;
 	}
-	if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == "Reply") { return false }
+	if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == MessageType.Reply) { return false }
 
 	if (message.mentions.has(client.user.id)) {
 		message.reply("Thanks for disturbing me loser but if you want to know use /help to know about my commands");

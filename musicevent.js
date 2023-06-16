@@ -19,8 +19,6 @@ const musicevent = ({ client }) => {
 
                 )
 
-
-
                 queue.textChannel?.send(
                     { embeds: [exampleEmbed] }
                 )
@@ -44,7 +42,6 @@ const musicevent = ({ client }) => {
                 queue.textChannel?.send(
                     { embeds: [exampleEmbed] }
                 )
-
             }
         }
         )
@@ -57,6 +54,17 @@ const musicevent = ({ client }) => {
             )
         }
     });
+    client.distube.on("searchNoResult", (message, query) => {
+        const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setDescription(`**No result found for ${query}!**`)
+
+        message.textChannel.send({ embeds: [exampleEmbed] })
+    });
+
+    client.distube.on('disconnect', (queue) => {
+        const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setDescription(`**No song To play leaving vc**`)
+
+        queue.textChannel.send({ embeds: [exampleEmbed] })
+    })
 
 }
 

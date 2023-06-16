@@ -6,7 +6,7 @@ const register = require('./register')
 const musicevent = require('./musicevent')
 
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates], presence: { status: 'dnd', activities: [{ name: "Bursting TressHouse", type: ActivityType.Competing }] } });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
 
 const commands = [];
 

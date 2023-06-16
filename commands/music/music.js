@@ -37,11 +37,14 @@ module.exports = {
         const botvc = interaction.guild.members.me.voice.channel
         const subcommand = options.getSubcommand()
 
+
+
+
         if (!voicechannel) {
             return interaction.reply("Please Join a vc then use this command")
         }
 
-        if (!botvc) {
+        if (!botvc || voicechannel.id == botvc.id) {
             try {
                 switch (subcommand) {
                     case "play":
@@ -120,6 +123,7 @@ module.exports = {
         }
 
         else {
+
             await interaction.reply({ content: " I am already playing music in a this server", ephemeral: true })
         }
     }

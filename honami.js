@@ -2,8 +2,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits, ActivityType, MessageType } = require('discord.js');
 const { token } = require('./config.json');
-const register = require('./register')
-const musicevent = require('./musicevent')
+const register = require('./helpers/register')
+const musicevent = require('./helpers/musicevent')
 
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });

@@ -176,6 +176,7 @@ module.exports = {
                 ).setColor('Red').setAuthor({
                     name: `${client.user.username}`, iconURL: client.user.avatarURL()
                 })
+                await interaction.reply("Oh no I am facing some erros reporting problem to our developers")
                 channel.send({ embeds: [exampleEmbed] })
             }
         }

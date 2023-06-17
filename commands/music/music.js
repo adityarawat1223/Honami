@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, codeBlock } = require('discord.js');
 const client = require('../../honami')
 const { EmbedBuilder } = require('discord.js');
 
@@ -27,10 +27,17 @@ module.exports = {
                 option.setName("number")
                     .setDescription("Provide Song number")
                     .setRequired(true)))
+        .addSubcommand(subcommand => subcommand.setName("loop").setDescription("Loop songs or queue")
+            .addStringOption(option => option.setName("loop").setDescription("choose loop mode").addChoices(
+                { name: "off", value: "off" },
+                { name: "song", value: "song" },
+                { name: "queue", value: "queue" }
+
+            ).setRequired(true)))
     ,
 
     async execute(interaction) {
-        const { options, member, channel } = interaction
+        const { options, member, channel, guild } = interaction
         const query = options.getString("name")
         const num = options.getInteger("number")
         const voicechannel = member.voice.channel
@@ -118,8 +125,59 @@ module.exports = {
                             }
                         }
                         break
+
+
+                    case "loop":
+
+                        const option = options.getString("loop")
+
+
+
+                        const queuecheck = await client.distube.getQueue(voicechannel)
+
+                        if (!queuecheck) {
+                            const exampleEmbed = new EmbedBuilder().setColor('Red').setDescription("**Please add some songs in queue first**")
+                            return interaction.reply({ embeds: [exampleEmbed] })
+                        }
+
+
+                        let mode = null
+                        switch (option) {
+
+                            case "off":
+                                { mode = 0 }
+                                break;
+                            case "song":
+                                { mode = 1 }
+                                break
+                            case "queue":
+                                { mode = 2 }
+                                break
+                        }
+
+
+
+                        mode = await client.distube.setRepeatMode(guild, mode)
+
+                        mode = mode ? mode == 2 ? "Repeat queue" : "Repeat song" : "Off";
+
+                        const exampleEmbed = new EmbedBuilder().setDescription(`**Set Repeat Mode to ${mode}**`)
+                        await interaction.reply({ embeds: [exampleEmbed] })
+
+
+
+
                 }
-            } catch (err) { console.log(err) }
+            } catch (err) {
+                const channel = client.channels.cache.get("1015498504992460840");
+                const code = codeBlock('js', `${err}`)
+                const exampleEmbed = new EmbedBuilder().setTitle("Reporting an error").setDescription(
+                    `${code}`
+                ).setColor('Red').setAuthor({
+                    name: `${client.user.username}`, iconURL: client.user.avatarURL()
+                })
+                channel.send({ embeds: [exampleEmbed] })
+            }
         }
 
         else {

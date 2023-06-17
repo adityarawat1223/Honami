@@ -12,7 +12,7 @@ const musicevent = ({ client }) => {
                     iconURL: song.user.displayAvatarURL()
 
                 }).setImage(song.thumbnail).setAuthor({
-                    name: `${client.user.tag}`, iconURL: client.user.avatarURL()
+                    name: `${client.user.username}`, iconURL: client.user.avatarURL()
                 }).addFields(
                     { name: 'Next Song in Queue', value: `**No Songs**`, inline: true },
                     { name: 'Song Duration', value: `**${song.formattedDuration}**`, inline: true },
@@ -63,6 +63,11 @@ const musicevent = ({ client }) => {
     client.distube.on('disconnect', (queue) => {
         const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setDescription(`** Leaving vc**`)
 
+        queue.textChannel.send({ embeds: [exampleEmbed] })
+    })
+
+    client.distube.on("empty", (queue) => {
+        const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setDescription(`**Channel is empty. Leaving the channel**`)
         queue.textChannel.send({ embeds: [exampleEmbed] })
     })
 

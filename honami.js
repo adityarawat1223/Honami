@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, ActivityType, MessageType } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType, MessageType, EmbedBuilder } = require('discord.js');
 const { token } = require('./config.json');
 const register = require('./helpers/register')
 const musicevent = require('./helpers/musicevent')
@@ -84,6 +84,9 @@ musicevent({ client: client })
 
 
 client.once(Events.ClientReady, c => {
+	const exampleEmbed = new EmbedBuilder().setColor("Blue").setDescription(`**I am online **`)
+	const channel = client.channels.cache.get("1119549238716669982");
+	channel.send({ embeds: [exampleEmbed] })
 	console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 

@@ -18,6 +18,7 @@ const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 
 client.distube = new DisTube(client, {
+	leaveOnEmpty :true,
 	leaveOnFinish: true,
 	plugins: [new SpotifyPlugin()],
 });
@@ -57,9 +58,9 @@ client.on(Events.InteractionCreate, async interaction => {
 	} catch (error) {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+			return  await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
 		} else {
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+			return await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
 	}
 });
@@ -72,11 +73,10 @@ client.on("messageCreate", (message) => {
 	if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == MessageType.Reply) { return false }
 
 	if (message.mentions.has(client.user.id)) {
-		message.reply("Thanks for disturbing me loser but if you want to know use /help to know about my commands");
+		return message.reply("Thanks for disturbing me loser but if you want to know use /help to know about my commands");
 	}
 
 })
-
 
 musicevent({ client: client })
 // register({ commands: commands, token: token })
@@ -87,7 +87,7 @@ client.once(Events.ClientReady, c => {
 	const exampleEmbed = new EmbedBuilder().setColor("Blue").setDescription(`**I am online **`)
 	const channel = client.channels.cache.get("1119549238716669982");
 	channel.send({ embeds: [exampleEmbed] })
-	console.log(`Ready! Logged in as ${c.user.tag}`);
+	return console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
 

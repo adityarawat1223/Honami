@@ -15,25 +15,27 @@ module.exports = {
         const botRolePosition = interaction.guild.members.me.roles.highest.position;
         const { EmbedBuilder } = require('discord.js');
 
+        await interaction.channel.sendTyping()
 
         if (banuser.id === interaction.guild.ownerId) {
-            await interaction.reply(
-                "You can't Kick that user because they're the server owner."
-            );
+            const exampleEmbed = new EmbedBuilder().setDescription("**You can't Kick that user because they're the server owner.**").setColor("Blue")
+            await interaction.reply({ embeds: [exampleEmbed] });
             return;
         }
 
 
         if (targetUserRolePosition >= requestUserRolePosition) {
-            await interaction.reply(
-                "You can't Kick that user because they have the same/higher role than you."
-            );
+            const exampleEmbed = new EmbedBuilder().setDescription("**You can't Kick that user because they have the same/higher role than you.**").setColor("Blue")
+            await interaction.reply({
+                embeds: [exampleEmbed]
+            });
             return;
         }
 
         if (targetUserRolePosition >= botRolePosition) {
+            const exampleEmbed = new EmbedBuilder().setDescription("**I can't Kick that user because they have the same/higher role than me.**").setColor("Blue")
             await interaction.reply(
-                "I can't Kick that user because they have the same/higher role than me."
+                { embeds: [exampleEmbed] }
             );
             return;
         }
@@ -49,7 +51,7 @@ module.exports = {
                         iconURL: user.displayAvatarURL()
                     })
                 banuser.kick()
-                await interaction.reply({ embeds: [exampleEmbed] })
+                return await interaction.reply({ embeds: [exampleEmbed] })
             }
 
             else {
@@ -61,7 +63,7 @@ module.exports = {
                         iconURL: user.displayAvatarURL()
                     })
                 banuser.kick(banuser)
-                await interaction.reply({ embeds: [exampleEmbed] })
+                return await interaction.reply({ embeds: [exampleEmbed] })
 
             }
         }

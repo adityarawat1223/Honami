@@ -45,9 +45,8 @@ module.exports = {
         const subcommand = options.getSubcommand()
 
 
-
-
         if (!voicechannel) {
+            await interaction.channel.sendTyping()
             return interaction.reply("Please Join a vc then use this command")
         }
 
@@ -60,15 +59,18 @@ module.exports = {
                             member: member,
                         })
                         await interaction.reply({ content: 'Requesting Song please wait a moment', ephemeral: true });
+                        await interaction.channel.sendTyping()
                         break
 
                     case "stop":
                         const queue = await client.distube.getQueue(voicechannel)
                         if (!queue) {
+                            await interaction.channel.sendTyping()
                             await interaction.reply("No song playing")
                         }
                         else {
                             client.distube.stop(voicechannel)
+                            await interaction.channel.sendTyping()
                             await interaction.reply({ content: "Stopping Music", ephemeral: true })
                         }
                         break
@@ -76,10 +78,12 @@ module.exports = {
                     case "skip":
                         const queuek = await client.distube.getQueue(voicechannel)
                         if (!queuek) {
+                            await interaction.channel.sendTyping()
                             await interaction.reply({ content: "No song in Queue", ephemeral: true })
                         }
                         else {
                             if (queuek.songs.length <= 1) {
+                                await interaction.channel.sendTyping()
                                 await interaction.reply({ content: "NO songs in queue to skip", ephemeral: true })
                             }
                             else {
@@ -91,6 +95,7 @@ module.exports = {
                     case "queue":
                         const qlist = await client.distube.getQueue(voicechannel)
                         if (!qlist) {
+                            await interaction.channel.sendTyping()
                             await interaction.reply({ content: "No song in Queue", ephemeral: true })
                         }
                         else {
@@ -106,11 +111,13 @@ module.exports = {
                         const qcheck = await client.distube.getQueue(voicechannel)
 
                         if (!qcheck) {
+                            await interaction.channel.sendTyping()
                             await interaction.reply({ content: "No song in Queue", ephemeral: true })
                         }
 
                         else {
                             if (qcheck.songs.length <= 1) {
+                                await interaction.channel.sendTyping()
                                 await interaction.reply({ content: "Add More songs into queue to access this feature", ephemeral: true })
                             }
                             else {
@@ -120,6 +127,7 @@ module.exports = {
                                     await interaction.reply({ content: "Jumping on your mom", ephemeral: true })
                                 }
                                 else {
+                                    await interaction.channel.sendTyping()
                                     await interaction.reply({ content: " Bruh No number like that exist in queue so i jump on your mom instead " })
                                 }
                             }

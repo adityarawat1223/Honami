@@ -4,13 +4,11 @@ const { EmbedBuilder } = require('discord.js');
 
 const musicevent = ({ client }) => {
     client.distube
-        .on('playSong', (queue, song) => {
-
+        .on('playSong', async (queue, song) => {
             if (queue.songs.length <= 1) {
                 const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setTitle(` Playing - ${song.name}`).setDescription(`Playing In our Highest quality Enjoy `).setFooter({
-                    text: ` Requested By ${song.user.tag}`,
+                    text: ` Requested By ${song.user.username}`,
                     iconURL: song.user.displayAvatarURL()
-
                 }).setImage(song.thumbnail).setAuthor({
                     name: `${client.user.username}`, iconURL: client.user.avatarURL()
                 }).addFields(
@@ -18,13 +16,14 @@ const musicevent = ({ client }) => {
                     { name: 'Song Duration', value: `**${song.formattedDuration}**`, inline: true },
 
                 )
-
+                
                 queue.textChannel?.send(
                     { embeds: [exampleEmbed] }
                 )
             }
 
             else {
+
                 const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setTitle(` Playing - ${song.name}`).setDescription(`Playing In our Highest quality Enjoy `).setFooter({
                     text: ` Requested By ${song.user.username}`,
                     iconURL: song.user.displayAvatarURL()
@@ -38,7 +37,7 @@ const musicevent = ({ client }) => {
                 )
 
 
-
+                
                 queue.textChannel?.send(
                     { embeds: [exampleEmbed] }
                 )
@@ -60,16 +59,6 @@ const musicevent = ({ client }) => {
         message.textChannel.send({ embeds: [exampleEmbed] })
     });
 
-    client.distube.on('disconnect', (queue) => {
-        const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setDescription(`** Leaving vc**`)
-
-        queue.textChannel.send({ embeds: [exampleEmbed] })
-    })
-
-    client.distube.on("empty", (queue) => {
-        const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setDescription(`**Channel is empty. Leaving the channel**`)
-        queue.textChannel.send({ embeds: [exampleEmbed] })
-    })
 
 }
 

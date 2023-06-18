@@ -8,6 +8,7 @@ module.exports = {
                 .setDescription("Content you want bot to say ")
                 .setRequired(true)).setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     async execute(interaction) {
+        interaction.channel.sendTyping()
         const { options } = interaction
         const content = options.getString("content")
         await interaction.reply({ content: "Done", ephemeral: true })

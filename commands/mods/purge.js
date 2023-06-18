@@ -12,14 +12,12 @@ module.exports = {
         const { channel, options } = interaction
         const num = options.getNumber("amount")
         if (100 >= num) {
-            channel.bulkDelete(num, true)
-            interaction.reply({ content: `Deleted ${num} Messages, Remember i cant delete message older than 14 days due to discord api limitations `, ephemeral: true })
-
+            const amount = await channel.bulkDelete(num, true)
+            await interaction.deferReply();
+            return interaction.reply({ content: `Deleted ${amount.size} Messages, Remember i cant delete message older than 14 days due to discord api limitations `, ephemeral: true })
         }
         else {
             interaction.reply({ content: "Please enter amount less than or equal to 100", ephemeral: true })
         }
-
-
     },
 };

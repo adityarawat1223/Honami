@@ -17,28 +17,29 @@ module.exports = {
         const { EmbedBuilder } = require('discord.js');
 
 
+        interaction.channel.sendTyping()
+
         if (banuser.id === interaction.guild.ownerId) {
+            const exampleEmbed = new EmbedBuilder().setDescription("**You can't ban that user because they're the server owner.**").setColor("Blue")
             await interaction.reply(
-                "You can't ban that user because they're the server owner."
+                { embeds: [exampleEmbed] }
             );
             return;
         }
-
-
         if (targetUserRolePosition >= requestUserRolePosition) {
+            const exampleEmbed = new EmbedBuilder().setDescription("**You can't ban that user because they have the same/higher role than you.**").setColor("Blue")
             await interaction.reply(
-                "You can't ban that user because they have the same/higher role than you."
+                { embeds: [exampleEmbed] }
             );
             return;
         }
-
         if (targetUserRolePosition >= botRolePosition) {
+            const exampleEmbed = new EmbedBuilder().setDescription("**I can't ban that user because they have the same/higher role than me.**").setColor("Blue")
             await interaction.reply(
-                "I can't ban that user because they have the same/higher role than me."
+                { embeds: [exampleEmbed] }
             );
             return;
         }
-
         else {
 
             if (!reason) {

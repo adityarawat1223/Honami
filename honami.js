@@ -1,12 +1,12 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, ActivityType, MessageType, EmbedBuilder } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType, MessageType, EmbedBuilder, WebhookClient, Webhook } = require('discord.js');
 const { token } = require('./config.json');
 const register = require('./helpers/register')
 const musicevent = require('./helpers/musicevent')
 
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
 
 const commands = [];
 
@@ -18,7 +18,7 @@ const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 
 client.distube = new DisTube(client, {
-	leaveOnEmpty :true,
+	leaveOnEmpty: true,
 	leaveOnFinish: true,
 	plugins: [new SpotifyPlugin()],
 });
@@ -58,7 +58,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	} catch (error) {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
-			return  await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+			return await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
 		} else {
 			return await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
@@ -66,7 +66,7 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 
-client.on("messageCreate", (message) => {
+client.on("messageCreate", async (message) => {
 	if (message.author.bot) {
 		return;
 	}
@@ -74,6 +74,47 @@ client.on("messageCreate", (message) => {
 
 	if (message.mentions.has(client.user.id)) {
 		return message.reply("Thanks for disturbing me loser but if you want to know use /help to know about my commands");
+
+	}
+	const EMOJIREGEX = /<?(a)?:(\w{2,32}):(\d{17,19})?>?/;
+	var emojis = message.content.match(EMOJIREGEX);
+	if (emojis) {
+		const text = client.emojis.cache.get(emojis[3])
+		if (!text) {
+			const emojiname = emojis[0]
+			const emojipure = emojiname.replace(/:/g, '')
+
+			const anim = client.emojis.cache.find(emoji => emoji.name === `${emojipure}`)
+			if (!anim) {
+				return;
+			}
+
+			else {
+				const web = await message.channel.fetchWebhooks()
+				const webk = await web.find(wh => wh.name === "Honami")
+				message.delete()
+				if (webk) {
+					return webk.send({ 
+						username: `${message.author.username}`, avatarURL: `${message.author.displayAvatarURL()}`,
+						content: `<a:${anim.name}:${anim.id}>`
+					})
+				}
+				else {
+					const webk = await message.channel.createWebhook({
+						name: 'Honami',
+						avatar: `${client.user.avatarURL()}`,
+					})
+					return webk.send({
+						username: `${message.author.username}`, avatarURL: `${message.author.displayAvatarURL()}`,
+						content: `<a:${anim.name}:${anim.id}>`
+					})
+				}
+			}
+		}
+		else {
+			return;
+
+		}
 	}
 
 })

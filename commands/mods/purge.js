@@ -13,7 +13,6 @@ module.exports = {
         const num = options.getNumber("amount")
         if (100 >= num) {
             const amount = await channel.bulkDelete(num, true)
-            await interaction.deferReply();
             return interaction.reply({ content: `Deleted ${amount.size} Messages, Remember i cant delete message older than 14 days due to discord api limitations `, ephemeral: true })
         }
         else {

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, codeBlock } = require('discord.js');
+const { SlashCommandBuilder, codeBlock, time } = require('discord.js');
 const client = require('../../honami')
 const { EmbedBuilder } = require('discord.js');
 
@@ -66,12 +66,14 @@ module.exports = {
                         const queue = await client.distube.getQueue(voicechannel)
                         if (!queue) {
                             await interaction.channel.sendTyping()
-                            await interaction.reply("No song playing")
+                            const exampleEmbed = new EmbedBuilder().setDescription("**No song Playing**").setColor(`Blue`)
+                            await interaction.reply({ embeds: [exampleEmbed] })
                         }
                         else {
                             client.distube.stop(voicechannel)
                             await interaction.channel.sendTyping()
-                            await interaction.reply({ content: "Stopping Music", ephemeral: true })
+                            const exampleEmbed = new EmbedBuilder().setDescription("**Stopping music**").setColor(`Blue`)
+                            await interaction.reply({ embeds: [exampleEmbed] })
                         }
                         break
 
@@ -79,16 +81,19 @@ module.exports = {
                         const queuek = await client.distube.getQueue(voicechannel)
                         if (!queuek) {
                             await interaction.channel.sendTyping()
-                            await interaction.reply({ content: "No song in Queue", ephemeral: true })
+                            const exampleEmbed = new EmbedBuilder().setDescription("**No songs in Queue**").setColor(`Blue`)
+                            await interaction.reply({ embeds: [exampleEmbed] })
                         }
                         else {
                             if (queuek.songs.length <= 1) {
                                 await interaction.channel.sendTyping()
-                                await interaction.reply({ content: "NO songs in queue to skip", ephemeral: true })
+                                const exampleEmbed = new EmbedBuilder().setDescription("**No songs in queue to skip**").setColor(`Blue`)
+                                await interaction.reply({ embeds: [exampleEmbed] })
                             }
                             else {
                                 client.distube.skip(voicechannel)
-                                await interaction.reply({ content: "Skipping Song", ephemeral: true })
+                                const exampleEmbed = new EmbedBuilder().setDescription("**Skipping Song**").setColor(`Blue`)
+                                await interaction.reply({ embeds: [exampleEmbed] })
                             }
                         }
                         break
@@ -96,11 +101,12 @@ module.exports = {
                         const qlist = await client.distube.getQueue(voicechannel)
                         if (!qlist) {
                             await interaction.channel.sendTyping()
-                            await interaction.reply({ content: "No song in Queue", ephemeral: true })
+                            const exampleEmbed = new EmbedBuilder().setDescription("**No songs in queue**").setColor(`Blue`)
+                            await interaction.reply({ embeds: [exampleEmbed] })
                         }
                         else {
                             const exampleEmbed = new EmbedBuilder().setColor(0x0099FF).setTitle(`Queue List`).setDescription(`${qlist.songs.map((song, id) =>
-                                `**${id + 1}**. [${song.name}](${song.url}) - \`${song.formattedDuration}\``
+                                `**${id + 1}**. [${song.name}] - \`${song.formattedDuration}\``
                             ).join("\n")}`)
 
                             await interaction.reply({ embeds: [exampleEmbed] })
@@ -112,23 +118,28 @@ module.exports = {
 
                         if (!qcheck) {
                             await interaction.channel.sendTyping()
-                            await interaction.reply({ content: "No song in Queue", ephemeral: true })
+                            const exampleEmbed = new EmbedBuilder().setDescription("**No songs in queue to Jump**").setColor(`Blue`)
+                            await interaction.reply({ embeds: [exampleEmbed] })
                         }
 
                         else {
                             if (qcheck.songs.length <= 1) {
                                 await interaction.channel.sendTyping()
-                                await interaction.reply({ content: "Add More songs into queue to access this feature", ephemeral: true })
+                                const exampleEmbed = new EmbedBuilder().setDescription("**Add More songs into queue to access this feature**").setColor(`Blue`)
+                                await interaction.reply({ embeds: [exampleEmbed] })
                             }
                             else {
                                 if (parseInt(num) <= qcheck.songs.length) {
                                     const q = parseInt(num) - 1
                                     client.distube.jump(voicechannel, q)
-                                    await interaction.reply({ content: "Jumping on your mom", ephemeral: true })
+                                    const exampleEmbed = new EmbedBuilder().setDescription("**Jumping on song Please wait**").setColor(`Blue`)
+                                    await interaction.reply({ embeds: [exampleEmbed] })
+                                    await interaction.channel.sendTyping()
                                 }
                                 else {
                                     await interaction.channel.sendTyping()
-                                    await interaction.reply({ content: " Bruh No number like that exist in queue so i jump on your mom instead " })
+                                    const exampleEmbed = new EmbedBuilder().setDescription("**I am sorry No number like that exist in queue please check again**").setColor(`Blue`)
+                                    await interaction.reply({ embeds: exampleEmbed })
                                 }
                             }
                         }
@@ -171,27 +182,33 @@ module.exports = {
 
                         const exampleEmbed = new EmbedBuilder().setDescription(`**Set Repeat Mode to ${mode}**`)
                         await interaction.reply({ embeds: [exampleEmbed] })
-
-
-
+                        return;
 
                 }
             } catch (err) {
+                const date = new Date();
+                const timeString = time(date);
                 const channel = client.channels.cache.get("1015498504992460840");
                 const code = codeBlock('js', `${err}`)
                 const exampleEmbed = new EmbedBuilder().setTitle("Reporting an error").setDescription(
                     `${code}`
                 ).setColor('Red').setAuthor({
-                    name: `${client.user.username}`, iconURL: client.user.avatarURL()
+                    name: `${client.user.username}`, iconURL: client.user.displayAvatarURL()
+                }).addFields({ name: "Command used", value: `</${interaction.commandName}:${interaction.commandId}>`, inline: true }, { name: "Channel", value: `${interaction.channel.name}`, inline: true }, { name: "Time", value: `${timeString}`, inline: true }).setFooter({
+                    text: `Used By ${interaction.user.username}`,
+                    iconURL: interaction.user.displayAvatarURL()
+
                 })
                 await interaction.reply("Oh no I am facing some erros reporting problem to our developers")
                 channel.send({ embeds: [exampleEmbed] })
+                return;
             }
         }
 
         else {
-
-            await interaction.reply({ content: " I am already playing music in a this server", ephemeral: true })
+            const exampleEmbed = new EmbedBuilder().setDescription(`**I think i am already playing music in ${botvc.name}**`).setColor(`Blue`)
+            await interaction.reply({ embeds: [exampleEmbed] })
+            return
         }
     }
 

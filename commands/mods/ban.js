@@ -40,6 +40,12 @@ module.exports = {
             );
             return;
         }
+
+        if (!banuser) {
+            const exampleEmbed = new EmbedBuilder().setDescription("**Member Not Found**")
+            interaction.reply({ embeds: [exampleEmbed] })
+            return;
+        }
         else {
 
             if (!reason) {

@@ -5,6 +5,7 @@ const { token } = require('./config.json');
 const register = require('./helpers/register')
 const musicevent = require('./events/musicevent')
 const botevent = require("./events/bot events")
+const Connectdb = require("./helpers/database")
 
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
@@ -46,6 +47,7 @@ for (const folder of commandFolders) {
 
 musicevent({ client: client })
 botevent(client)
+Connectdb()
 // register({ commands: commands, token: token })
 
 client.login(token);

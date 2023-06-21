@@ -47,7 +47,8 @@ module.exports = {
 
         if (!voicechannel) {
             await interaction.channel.sendTyping()
-            return interaction.reply("Please Join a vc then use this command")
+            const exampleEmbed = new EmbedBuilder().setDescription("**Please Join a vc then use this command**").setColor(`Blue`)
+            return interaction.reply({ embeds: [exampleEmbed] })
         }
 
         if (!botvc || voicechannel.id == botvc.id) {

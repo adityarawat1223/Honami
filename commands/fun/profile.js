@@ -8,7 +8,7 @@ module.exports = {
     async execute(interaction) {
         const { options } = interaction
         const member = options.getMember("user")
-        interaction.channel.sendTyping()
+        await interaction.channel.sendTyping()
         if (!member) {
             const exampleEmbed = new EmbedBuilder().setTitle(`${interaction.user.username} Profile`).setThumbnail(interaction.user.displayAvatarURL()).addFields
                 ({ name: "Created At", value: `${time(interaction.user.createdAt)}` }, { name: `Joined At`, value: `${time(interaction.member.joinedAt)}` }, { name: `Highest Role`, value: `${interaction.member.roles.highest}` })

@@ -56,6 +56,7 @@ const botevents = (client) => {
             })
             await interaction.reply("Oh no I am facing some erros reporting problem to our developers")
             channel.send({ embeds: [exampleEmbed] })
+            console.log(error)
             
         }
     });

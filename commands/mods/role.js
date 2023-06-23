@@ -2,15 +2,15 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("disc
 
 module.exports = {
     data: new SlashCommandBuilder().setName("roles").setDescription("Nan").
-        addSubcommand(subcommand => subcommand.setName("all").setDescription("Get all roles available in server")).setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
+        addSubcommand(subcommand => subcommand.setName("all").setDescription("Get all roles available in server"))
         .addSubcommand(subcommand => subcommand.setName("create").setDescription("Give Name to your created role").addStringOption(option =>
             option.setName("name").setDescription("Give your role a name").setRequired(true)
         ).addBooleanOption(option => option.setName("hoisted").setDescription("Display role members separately from online members").setRequired(true)).addStringOption(option => option.setName("color").setDescription("Choose the color you want to give in Hexcode "))
-        ).setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
+        )
         .addSubcommand(subcommand => subcommand.setName("add").setDescription("Add roles to member").addUserOption(option => option.setName("user").setDescription("Select User you want to vie role").setRequired(true)).
-            addRoleOption(option => option.setName("role").setDescription("Select role you want to give").setRequired(true))).setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
+            addRoleOption(option => option.setName("role").setDescription("Select role you want to give").setRequired(true)))
         .addSubcommand(subcommand => subcommand.setName("remove").setDescription("remove role of user you want").addUserOption(option => option.setName("user").setDescription("Select User you want to vie role").setRequired(true)).
-            addRoleOption(option => option.setName("role").setDescription("Select role you want to give").setRequired(true))).setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles)
+            addRoleOption(option => option.setName("role").setDescription("Select role you want to give").setRequired(true)))
         .addSubcommand(subcommand => subcommand.setName("info").setDescription("Get info of role").
             addRoleOption(option => option.setName("role").setDescription("Which role info you want ?").setRequired(true))),
 
@@ -21,6 +21,14 @@ module.exports = {
         switch (subcommand) {
             case "all":
                 const rolemap = interaction.guild.roles.cache
+
+                if (!interaction.member.permissions.has(PermissionFlagsBits.ManageRoles)){
+                    const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Manage Roles permission to use this command**").setColor("Blue")
+                    await interaction.reply(
+                        { embeds: [exampleEmbed] }
+                    );
+                    return;
+                }
                 if (rolemap) {
 
                     const exampleEmbed = new EmbedBuilder().setTitle(`${interaction.guild.name} Roles`).setDescription(
@@ -41,6 +49,13 @@ module.exports = {
                 const color = options.getString("color")
                 const hoist = options.getBoolean("hoisted")
 
+                if (!interaction.member.permissions.has(PermissionFlagsBits.ManageRoles)){
+                    const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Manage Roles permission to use this command**").setColor("Blue")
+                    await interaction.reply(
+                        { embeds: [exampleEmbed] }
+                    );
+                    return;
+                }
                 let colorpure = null
                 if (color) {
                     const check = reg.test(color)
@@ -66,8 +81,8 @@ module.exports = {
                 const requestUserRolePosition = interaction.member.roles.highest.position;
                 const botRolePosition = interaction.guild.members.me.roles.highest.position;
 
-                if (role.position >= requestUserRolePosition) {
-                    const exampleEmbed = new EmbedBuilder().setDescription("**You can't assign this role You need More higher role.**").setColor("Blue")
+                if (!interaction.member.permissions.has(PermissionFlagsBits.ManageRoles)){
+                    const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Manage Roles permission to use this command**").setColor("Blue")
                     await interaction.reply(
                         { embeds: [exampleEmbed] }
                     );
@@ -98,6 +113,14 @@ module.exports = {
                 const role1 = options.getRole("role")
                 const requestUserRolePosition1 = interaction.member.roles.highest.position;
                 const botRolePosition1 = interaction.guild.members.me.roles.highest.position;
+
+                if (!interaction.member.permissions.has(PermissionFlagsBits.ManageRoles)){
+                    const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Manage Roles permission to use this command**").setColor("Blue")
+                    await interaction.reply(
+                        { embeds: [exampleEmbed] }
+                    );
+                    return;
+                }
 
                 if (role1.position >= requestUserRolePosition1) {
                     const exampleEmbed = new EmbedBuilder().setDescription("**You can't Remove this role You need More higher role.**").setColor("Blue")

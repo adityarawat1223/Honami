@@ -4,7 +4,7 @@ const client = require('../../honami')
 module.exports = {
     cooldown: 10,
     data: new SlashCommandBuilder().setName("ban").setDescription("Ban a user from guild id or mention both work").addUserOption(option => option.setName("user").setDescription("Select user or provide id").setRequired(true))
-        .addStringOption(option => option.setName("reason").setDescription("Optional reason")).setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+        .addStringOption(option => option.setName("reason").setDescription("Optional reason")),
 
     async execute(interaction) {
 
@@ -18,6 +18,15 @@ module.exports = {
 
 
         interaction.channel.sendTyping()
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.BanMembers)){
+            const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Ban permission to use this command**").setColor("Blue")
+            await interaction.reply(
+                { embeds: [exampleEmbed] }
+            );
+            return;
+
+        }
 
         if (banuser.id === interaction.guild.ownerId) {
             const exampleEmbed = new EmbedBuilder().setDescription("**You can't ban that user because they're the server owner.**").setColor("Blue")

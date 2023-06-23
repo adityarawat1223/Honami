@@ -8,6 +8,14 @@ module.exports = {
         const { options } = interaction
         const member = options.getMember("user")
 
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ModerateMembers)){
+            const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Moderate Member permission to use this command**").setColor("Blue")
+            await interaction.reply(
+                { embeds: [exampleEmbed] }
+            );
+            return;
+        }
+
         if (member) {
             const check = member.isCommunicationDisabled()
             if (check) {

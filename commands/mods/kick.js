@@ -4,7 +4,7 @@ const client = require('../../honami')
 module.exports = {
     cooldown: 10,
     data: new SlashCommandBuilder().setName("kick").setDescription("kick a user from guild id or mention both work").addUserOption(option => option.setName("user").setDescription("Select user or provide id").setRequired(true))
-        .addStringOption(option => option.setName("reason").setDescription("Optional reason")).setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
+        .addStringOption(option => option.setName("reason").setDescription("Optional reason")),
 
     async execute(interaction) {
         const { user, options } = interaction
@@ -16,6 +16,14 @@ module.exports = {
         const { EmbedBuilder } = require('discord.js');
 
         await interaction.channel.sendTyping()
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.KickMembers)){
+            const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Kick permission to use this command**").setColor("Blue")
+            await interaction.reply(
+                { embeds: [exampleEmbed] }
+            );
+            return;
+        }
 
         if (banuser.id === interaction.guild.ownerId) {
             const exampleEmbed = new EmbedBuilder().setDescription("**You can't Kick that user because they're the server owner.**").setColor("Blue")

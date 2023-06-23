@@ -5,8 +5,7 @@ module.exports = {
     cooldown: 10,
     data: new SlashCommandBuilder()
         .setName('purge').
-        setDescription("Purge some messages or all messages your wish").
-        setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+        setDescription("Purge some messages or all messages your wish")
         .addSubcommand(
             subcommand => subcommand.setName("messages").setDescription("Delete some messages amount should be less than 100").addNumberOption(
                 option => option.setName("amount").setDescription("Enter message amount you want to delete").setRequired(true)
@@ -16,6 +15,16 @@ module.exports = {
     async execute(interaction) {
         const { options } = interaction
         const subcommand = options.getSubcommand()
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)){
+            const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Manage Manage Messages  permission to use this command**").setColor("Blue")
+            await interaction.reply(
+                { embeds: [exampleEmbed] }
+            );
+            return;
+        }
+
+        
         try {
             switch (subcommand) {
                 case "messages":

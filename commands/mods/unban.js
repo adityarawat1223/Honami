@@ -3,13 +3,21 @@ const client = require('../../honami')
 
 module.exports = {
     cooldown: 10,
-    data: new SlashCommandBuilder().setName("unban").setDescription("unBan a user from server using id ").addStringOption(option => option.setName("id").setDescription("provide id of member you want to unban").setRequired(true)).setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+    data: new SlashCommandBuilder().setName("unban").setDescription("unBan a user from server using id ").addStringOption(option => option.setName("id").setDescription("provide id of member you want to unban").setRequired(true)),
 
     async execute(interaction) {
 
         const { options } = interaction
         const id = options.getString("id")
         const user = interaction.guild.members.fetch(id)
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.BanMembers)){
+            const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Ban member permission to use this command**").setColor("Blue")
+            await interaction.reply(
+                { embeds: [exampleEmbed] }
+            );
+            return;
+        }
         if (user) {
             const date = new Date();
             const timeString = time(date);

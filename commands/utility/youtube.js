@@ -35,7 +35,7 @@ module.exports = {
         else {
             const feed = await parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${ytid}`)
 
-            if (!feed.items[0].id) {
+            if (!feed) {
                 const exampleEmbed = new EmbedBuilder().setDescription("This channel dont have any video ro Channel id is wrong please atleast upload a single video to use this feature")
                 interaction.reply({ embeds: [exampleEmbed] })
                 return;

@@ -42,7 +42,7 @@ module.exports = {
             }
 
             else {
-                await yt.insertMany({
+                await yt.insertOne({
                     ytid: ytid,
                     roleid: role.id,
                     guildid: interaction.guild.id,

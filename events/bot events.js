@@ -89,7 +89,7 @@ const botevents = (client) => {
             await users.map(async (us) => {
                 const lol = await afk.findOne({ userid: us.id })
                 if (lol) {
-                    const exampleEmbed = new EmbedBuilder().setDescription(`<@${lol.userid}> is Afk for **${lol.reason}** since ${time(`${lol.date}`)}`)
+                    const exampleEmbed = new EmbedBuilder().setDescription(`<@${lol.userid}> is Afk for **${lol.reason}** since ${time(lol.date)}`)
                     await message.reply({ embeds: [exampleEmbed] })
                 }
                 else {

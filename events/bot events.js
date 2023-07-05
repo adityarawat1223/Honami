@@ -1,5 +1,6 @@
 // const client = require("../honami")
 const { MessageType, EmbedBuilder, codeBlock, time, Events, Collection } = require('discord.js');
+const afk = require("../schema/afkschema")
 
 const botevents = (client) => {
 
@@ -57,7 +58,7 @@ const botevents = (client) => {
             await interaction.reply("Oh no I am facing some erros reporting problem to our developers")
             channel.send({ embeds: [exampleEmbed] })
             console.log(error)
-            
+
         }
     });
 
@@ -66,15 +67,38 @@ const botevents = (client) => {
     });
 
     client.on("messageCreate", async (message) => {
+        const lol = await afk.findOneAndDelete({ userid: message.author.id, guildid: message.guild.id })
+
+        if (lol) {
+            const exampleEmbed = new EmbedBuilder().setDescription(`You Are No longer Afk for reason **${lol.reason}**`)
+            await message.reply({ embeds: [exampleEmbed] })
+            return
+        }
+
+
         if (message.author.bot) {
             return;
         }
+
+
         if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == MessageType.Reply) { return false }
 
-        if (message.mentions.has(client.user.id)) {
-            return message.reply("Thanks for disturbing me loser but if you want to know use /help to know about my commands");
+
+        if (message.mentions.users) {
+            const users = message.mentions.users
+            await users.map(async (us) => {
+                const lol = await afk.findOne({ userid: us.id })
+                if (lol) {
+                    const exampleEmbed = new EmbedBuilder().setDescription(`<@${lol.userid}> is Afk for **${lol.reason}** since ${time(`${lol.date}`)}`)
+                    await message.reply({ embeds: [exampleEmbed] })
+                }
+                else {
+                    return
+                }
+            })
 
         }
+
         const EMOJIREGEX = /<?(a)?:(\w{2,32}):(\d{17,19})?>?/;
         var emojis = message.content.match(EMOJIREGEX);
         if (emojis) {

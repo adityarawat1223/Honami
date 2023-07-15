@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, time } = require(`discord.js`)
-const client = require("../../honami")
+
 
 module.exports = {
     data: new SlashCommandBuilder().setName("server").setDescription("Get server Info using this command"),
@@ -23,7 +23,7 @@ module.exports = {
             { name: "Server Premium Status", value: `${guild.premiumTier}` },
             { name: "Server Description", value: `${de}` }
         ).setThumbnail(guild.iconURL()).setAuthor({
-            name: `${client.user.username}`, iconURL: client.user.avatarURL()
+            name: `${interaction.client.user.username}`, iconURL: interaction.client.user.avatarURL()
         }).setFooter({ text: `${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() })
         interaction.reply({ embeds: [exampleEmbed] })
         return;

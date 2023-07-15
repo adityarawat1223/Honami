@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const client = require('../../honami')
+
 
 module.exports = {
     cooldown: 10,
@@ -58,7 +58,7 @@ module.exports = {
 
             if (!reason) {
                 const exampleEmbed = new EmbedBuilder().setAuthor({
-                    name: `${client.user.username}`, iconURL: client.user.avatarURL()
+                    name: `${interaction.client.user.username}`, iconURL: interaction.client.user.avatarURL()
                 }).setDescription(`**Successfully kicked ${banuser.user.username} **`).addFields({ name: 'Action performed By', value: `${user.username}`, inline: true },
                     { name: "Reason", value: `Not provided` }).setFooter({
                         text: ` Requested By ${user.username}`,
@@ -70,7 +70,7 @@ module.exports = {
 
             else {
                 const exampleEmbed = new EmbedBuilder().setAuthor({
-                    name: `${client.user.username}`, iconURL: client.user.avatarURL()
+                    name: `${interaction.client.user.username}`, iconURL: interaction.client.user.avatarURL()
                 }).setDescription(`**Successfully Kicked ${banuser.user.username} **`).addFields({ name: 'Action performed By', value: `${user.username}`, inline: true },
                     { name: "Reason", value: `${reason}` }).setFooter({
                         text: ` Requested By ${user.username}`,

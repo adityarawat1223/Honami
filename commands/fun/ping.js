@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const client = require('../../honami')
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -8,8 +8,8 @@ module.exports = {
 	async execute(interaction) {
 
 		const exampleembed = new EmbedBuilder().setAuthor({
-			name: `${client.user.username}`, iconURL: client.user.avatarURL()
-		}).setDescription(`**Current Ping is ${client.ws.ping} ms \n Bot uptime - ${client.uptime} ms**`)
+			name: `${interaction.client.user.username}`, iconURL: interaction.client.user.avatarURL()
+		}).setDescription(`**Current Ping is ${interaction.client.ws.ping} ms \n Bot uptime - ${interaction.client.uptime} ms**`)
 
 		await interaction.reply({ embeds: [exampleembed] });
 	},

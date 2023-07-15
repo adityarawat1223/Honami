@@ -1,8 +1,6 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const { Client, Collection, GatewayIntentBits, ActivityType } = require('discord.js');
+
+const { Client, GatewayIntentBits, ActivityType, Collection } = require('discord.js');
 const { token } = require('./config.json');
-const register = require('./helpers/register')
 const musicevent = require('./events/musicevent')
 const botevent = require("./events/bot events")
 const Connectdb = require("./helpers/database")
@@ -11,23 +9,17 @@ const checkyt = require("./events/ytevents")
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
 
+
+const fs = require('node:fs');
+const path = require('node:path');
+
+
+
 const commands = [];
 client.cooldowns = new Collection();
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
-
-const { DisTube } = require("distube");
-const { SpotifyPlugin } = require("@distube/spotify");
-
-client.distube = new DisTube(client, {
-	leaveOnEmpty: true,
-	leaveOnFinish: true,
-	plugins: [new SpotifyPlugin()],
-	emptyCooldown: 30
-});
-module.exports = client;
-
 
 for (const folder of commandFolders) {
 
@@ -46,9 +38,23 @@ for (const folder of commandFolders) {
 	}
 }
 
+const { DisTube } = require("distube");
+const { SpotifyPlugin } = require("@distube/spotify");
+
+client.distube = new DisTube(client, {
+	leaveOnEmpty: true,
+	leaveOnFinish: true,
+	plugins: [new SpotifyPlugin()],
+	emptyCooldown: 30
+});
+
+
+
+
 musicevent({ client: client })
-botevent(client)
+botevent({ client : client , commands: commands })
 Connectdb()
 setInterval(checkyt, 600000);
-// register({ commands: commands, token: token })
 client.login(token);
+
+

@@ -1,8 +1,11 @@
-// const client = require("../honami")
+
 const { MessageType, EmbedBuilder, codeBlock, time, Events, Collection } = require('discord.js');
 const afk = require("../schema/afkschema")
+const register = require('../helpers/register');
+const { token } = require("../config.json")
 
-const botevents = (client) => {
+
+const botevents = ( {client, commands}) => {
 
     client.on(Events.InteractionCreate, async interaction => {
         if (!interaction.isChatInputCommand()) return;
@@ -82,6 +85,19 @@ const botevents = (client) => {
 
 
         if (message.content.includes("@here") || message.content.includes("@everyone") || message.type == MessageType.Reply) { return false }
+
+        if (message.content.includes("Honami sync")) {
+            if (message.author.id === "979661273820168193") {
+                register({ commands: commands, token: token, message: message })
+                return;
+            }
+
+
+            else {
+                return;
+            }
+
+        }
 
 
         if (message.mentions.users) {

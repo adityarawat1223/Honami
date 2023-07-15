@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, time } = require('discord.js');
-const client = require('../../honami')
+
 
 module.exports = {
     cooldown: 10,
@@ -21,7 +21,7 @@ module.exports = {
         if (user) {
             const date = new Date();
             const timeString = time(date);
-            const exampleEmbed = new EmbedBuilder().setAuthor({ name: `${client.user.username}`, iconURL: `${client.user.displayAvatarURL()}` }).setDescription(`**Succesfully unbanned ${user.username}**`).setFooter({ text: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}` }).addFields({ name: "Unbanned at", value: `${timeString}`, inline: true })
+            const exampleEmbed = new EmbedBuilder().setAuthor({ name: `${interaction.client.user.username}`, iconURL: `${interaction.client.user.displayAvatarURL()}` }).setDescription(`**Succesfully unbanned ${user.username}**`).setFooter({ text: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}` }).addFields({ name: "Unbanned at", value: `${timeString}`, inline: true })
             await interaction.guild.members.unban(user)
             await interaction.reply({ embeds: [exampleEmbed] })
             return;

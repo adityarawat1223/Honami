@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, codeBlock, time } = require('discord.js');
-const client = require('../../honami')
 const { EmbedBuilder } = require('discord.js');
 
 
@@ -55,7 +54,7 @@ module.exports = {
             try {
                 switch (subcommand) {
                     case "play":
-                        client.distube.play(voicechannel, query, {
+                        interaction.client.distube.play(voicechannel, query, {
                             textChannel: channel,
                             member: member,
                         })
@@ -64,14 +63,14 @@ module.exports = {
                         break
 
                     case "stop":
-                        const queue = await client.distube.getQueue(voicechannel)
+                        const queue = await interaction.client.distube.getQueue(voicechannel)
                         if (!queue) {
                             await interaction.channel.sendTyping()
                             const exampleEmbed = new EmbedBuilder().setDescription("**No song Playing**").setColor(`Blue`)
                             await interaction.reply({ embeds: [exampleEmbed] })
                         }
                         else {
-                            client.distube.stop(voicechannel)
+                            interaction.client.distube.stop(voicechannel)
                             await interaction.channel.sendTyping()
                             const exampleEmbed = new EmbedBuilder().setDescription("**Stopping music**").setColor(`Blue`)
                             await interaction.reply({ embeds: [exampleEmbed] })
@@ -79,7 +78,7 @@ module.exports = {
                         break
 
                     case "skip":
-                        const queuek = await client.distube.getQueue(voicechannel)
+                        const queuek = await interaction.client.distube.getQueue(voicechannel)
                         if (!queuek) {
                             await interaction.channel.sendTyping()
                             const exampleEmbed = new EmbedBuilder().setDescription("**No songs in Queue**").setColor(`Blue`)
@@ -92,14 +91,14 @@ module.exports = {
                                 await interaction.reply({ embeds: [exampleEmbed] })
                             }
                             else {
-                                client.distube.skip(voicechannel)
+                                interaction.client.distube.skip(voicechannel)
                                 const exampleEmbed = new EmbedBuilder().setDescription("**Skipping Song**").setColor(`Blue`)
                                 await interaction.reply({ embeds: [exampleEmbed] })
                             }
                         }
                         break
                     case "queue":
-                        const qlist = await client.distube.getQueue(voicechannel)
+                        const qlist = await interaction.client.distube.getQueue(voicechannel)
                         if (!qlist) {
                             await interaction.channel.sendTyping()
                             const exampleEmbed = new EmbedBuilder().setDescription("**No songs in queue**").setColor(`Blue`)
@@ -115,7 +114,7 @@ module.exports = {
                         break
 
                     case "jump":
-                        const qcheck = await client.distube.getQueue(voicechannel)
+                        const qcheck = await interaction.client.distube.getQueue(voicechannel)
 
                         if (!qcheck) {
                             await interaction.channel.sendTyping()
@@ -132,7 +131,7 @@ module.exports = {
                             else {
                                 if (parseInt(num) <= qcheck.songs.length) {
                                     const q = parseInt(num) - 1
-                                    client.distube.jump(voicechannel, q)
+                                    interaction.client.distube.jump(voicechannel, q)
                                     const exampleEmbed = new EmbedBuilder().setDescription("**Jumping on song Please wait**").setColor(`Blue`)
                                     await interaction.reply({ embeds: [exampleEmbed] })
                                     await interaction.channel.sendTyping()
@@ -153,7 +152,7 @@ module.exports = {
 
 
 
-                        const queuecheck = await client.distube.getQueue(voicechannel)
+                        const queuecheck = await interaction.client.distube.getQueue(voicechannel)
 
                         if (!queuecheck) {
                             const exampleEmbed = new EmbedBuilder().setColor('Red').setDescription("**Please add some songs in queue first**")
@@ -177,7 +176,7 @@ module.exports = {
 
 
 
-                        mode = await client.distube.setRepeatMode(guild, mode)
+                        mode = await interaction.client.distube.setRepeatMode(guild, mode)
 
                         mode = mode ? mode == 2 ? "Repeat queue" : "Repeat song" : "Off";
 
@@ -189,12 +188,12 @@ module.exports = {
             } catch (err) {
                 const date = new Date();
                 const timeString = time(date);
-                const channel = client.channels.cache.get("1015498504992460840");
+                const channel = interaction.client.channels.cache.get("1015498504992460840");
                 const code = codeBlock('js', `${err}`)
                 const exampleEmbed = new EmbedBuilder().setTitle("Reporting an error").setDescription(
                     `${code}`
                 ).setColor('Red').setAuthor({
-                    name: `${client.user.username}`, iconURL: client.user.displayAvatarURL()
+                    name: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL()
                 }).addFields({ name: "Command used", value: `</${interaction.commandName}:${interaction.commandId}>`, inline: true }, { name: "Channel", value: `${interaction.channel.name}`, inline: true }, { name: "Time", value: `${timeString}`, inline: true }).setFooter({
                     text: `Used By ${interaction.user.username}`,
                     iconURL: interaction.user.displayAvatarURL()

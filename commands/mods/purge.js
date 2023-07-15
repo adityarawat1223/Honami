@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, codeBlock , time} = require('discord.js');
-const client = require("../../honami")
+
 
 module.exports = {
     cooldown: 10,
@@ -52,12 +52,12 @@ module.exports = {
         } catch (err) {
             const date = new Date();
             const timeString = time(date);
-            const channel = client.channels.cache.get("1015498504992460840");
+            const channel = interaction.client.channels.cache.get("1015498504992460840");
             const code = codeBlock('js', `${err}`)
             const exampleEmbed = new EmbedBuilder().setTitle("Reporting an error").setDescription(
                 `${code}`
             ).setColor('Red').setAuthor({
-                name: `${client.user.username}`, iconURL: client.user.displayAvatarURL()
+                name: `${interaction.client.user.username}`, iconURL: interaction.client.user.displayAvatarURL()
             }).addFields({ name: "Command used", value: `</${interaction.commandName}:${interaction.commandId}>`, inline: true }, { name: "Channel", value: `${interaction.channel.name}`, inline: true }, { name: "Time", value: `${timeString}`, inline: true }).setFooter({
                 text: `Used By ${interaction.user.username}`,
                 iconURL: interaction.user.displayAvatarURL()

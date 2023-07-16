@@ -6,6 +6,12 @@ const botevent = require("./events/bot events")
 const Connectdb = require("./helpers/database")
 const checkyt = require("./events/ytevents")
 
+var cron = require('node-cron');
+
+cron.schedule('5 * * * *', () => {
+	console.log('running every minute 5');
+});
+
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
 

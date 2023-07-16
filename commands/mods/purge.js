@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, codeBlock , time} = require('discord.js');
-
+const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, codeBlock, time } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
     cooldown: 10,
@@ -16,7 +16,12 @@ module.exports = {
         const { options } = interaction
         const subcommand = options.getSubcommand()
 
-        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)){
+
+
+
+
+
+        if (!interaction.member.permissions.has(PermissionFlagsBits.ManageMessages)) {
             const exampleEmbed = new EmbedBuilder().setDescription("**You Dont have Manage Manage Messages  permission to use this command**").setColor("Blue")
             await interaction.reply(
                 { embeds: [exampleEmbed] }
@@ -24,7 +29,7 @@ module.exports = {
             return;
         }
 
-        
+
         try {
             switch (subcommand) {
                 case "messages":
@@ -38,15 +43,30 @@ module.exports = {
                     }
                     break
                 case "all":
-                    await interaction.channel.clone().then(async (clonedchannel) => {
-                        const original = interaction.channel.position
-                        await clonedchannel.setPosition(original)
-                        clonedchannel.send(`Deleted All messages in ${clonedchannel.name}`)
-                    }).catch((err) => {
-                        console.log(err)
-                    });
-                    await interaction.reply("Done")
-                    await interaction.channel.delete()
+
+                    const cancel = new ButtonBuilder()
+                        .setCustomId('purgecancel')
+                        .setLabel('Cancel')
+                        .setStyle(ButtonStyle.Success);
+
+                    const confirm = new ButtonBuilder()
+                        .setCustomId('purgeconfirm')
+                        .setLabel('Confirm')
+                        .setStyle(ButtonStyle.Danger);
+
+                    const row = new ActionRowBuilder()
+                        .addComponents(cancel, confirm);
+
+
+
+                    const exampleEmbed = new EmbedBuilder().setDescription(`**Are you sure  , You want to delete all message in <#${interaction.channel.id}>> ?  **`).setColor("Red")
+                    await interaction.reply({
+                        embeds: [exampleEmbed],
+                        components: [row],
+                        ephemeral: true
+                    })
+
+
                     break
             }
         } catch (err) {
@@ -68,3 +88,8 @@ module.exports = {
         }
     },
 };
+
+
+
+
+

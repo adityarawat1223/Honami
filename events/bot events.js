@@ -5,10 +5,17 @@ const register = require('../helpers/register');
 const { token } = require("../config.json")
 
 
-const botevents = ( {client, commands}) => {
+const botevents = ({ client, commands }) => {
 
     client.on(Events.InteractionCreate, async interaction => {
-        if (!interaction.isChatInputCommand()) return;
+
+        if (interaction.isButton()) {
+
+            const button = interaction.client.buttons.get(interaction.customId)
+            await button.execute(interaction);
+            return
+
+        }
 
         const command = interaction.client.commands.get(interaction.commandName);
 
@@ -17,6 +24,8 @@ const botevents = ( {client, commands}) => {
             console.error(`No command matching ${interaction.commandName} was found.`);
             return;
         }
+
+
 
         const { cooldowns } = client;
 
@@ -115,46 +124,7 @@ const botevents = ( {client, commands}) => {
 
         }
 
-        const EMOJIREGEX = /<?(a)?:(\w{2,32}):(\d{17,19})?>?/;
-        var emojis = message.content.match(EMOJIREGEX);
-        if (emojis) {
-            const text = client.emojis.cache.get(emojis[3])
-            if (!text) {
-                const emojiname = emojis[0]
-                const emojipure = emojiname.replace(/:/g, '')
 
-                const anim = client.emojis.cache.find(emoji => emoji.name === `${emojipure}`)
-                if (!anim) {
-                    return;
-                }
-
-                else {
-                    const web = await message.channel.fetchWebhooks()
-                    const webk = await web.find(wh => wh.name === "Honami")
-                    message.delete()
-                    if (webk) {
-                        return webk.send({
-                            username: `${message.author.username}`, avatarURL: `${message.author.displayAvatarURL()}`,
-                            content: `<a:${anim.name}:${anim.id}>`
-                        })
-                    }
-                    else {
-                        const webk = await message.channel.createWebhook({
-                            name: 'Honami',
-                            avatar: `${client.user.avatarURL()}`,
-                        })
-                        return webk.send({
-                            username: `${message.author.username}`, avatarURL: `${message.author.displayAvatarURL()}`,
-                            content: `<a:${anim.name}:${anim.id}>`
-                        })
-                    }
-                }
-            }
-            else {
-                return;
-
-            }
-        }
 
     })
 

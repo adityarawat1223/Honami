@@ -38,6 +38,30 @@ for (const folder of commandFolders) {
 	}
 }
 
+const buttons = [];
+client.buttons = new Collection()
+const buttonPath = path.join(__dirname, `buttons`)
+const buttonFolder = fs.readdirSync(buttonPath);
+
+for (const folder of buttonFolder) {
+	const buttonsPath = path.join(buttonPath, folder)
+	const buttonFiles = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'));
+	for (const file of buttonFiles) {
+
+		const filePath = path.join(buttonsPath, file);
+		const button = require(filePath);
+
+		if ('data' in button && 'execute' in button) {
+			buttons.push(JSON.stringify(button));
+			client.buttons.set(button.data.name, button);
+
+		} else {
+			console.log(`[WARNING] The button at ${filePath} is missing a required "data" or "execute" property.`);
+		}
+
+	}
+}
+
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 
@@ -52,7 +76,7 @@ client.distube = new DisTube(client, {
 
 
 musicevent({ client: client })
-botevent({ client : client , commands: commands })
+botevent({ client: client, commands: commands, buttons: buttons })
 Connectdb()
 setInterval(checkyt, 600000);
 client.login(token);

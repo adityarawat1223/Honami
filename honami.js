@@ -5,6 +5,7 @@ const musicevent = require('./events/musicevent')
 const botevent = require("./events/bot events")
 const Connectdb = require("./helpers/database")
 const checkyt = require("./events/ytevents")
+const endgiveaway = require("./helpers/giveawayhandler")
 
 var cron = require('node-cron');
 
@@ -70,6 +71,7 @@ for (const folder of buttonFolder) {
 
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
+const { setInterval } = require('node:timers');
 
 client.distube = new DisTube(client, {
 	leaveOnEmpty: true,
@@ -85,6 +87,7 @@ musicevent({ client: client })
 botevent({ client: client, commands: commands, buttons: buttons })
 Connectdb()
 setInterval(checkyt, 600000);
+setInterval(endgiveaway, 18000000)
 client.login(token);
 
 

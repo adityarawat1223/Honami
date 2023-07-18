@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'Honami'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_467F20FBC7FF47E6B95C16B0778032B6 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C27C6F570AE44D2293DB4274BBC28F37 }}
           package: .

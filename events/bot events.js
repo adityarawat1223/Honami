@@ -1,8 +1,13 @@
 
-const { MessageType, EmbedBuilder, codeBlock, time, Events, Collection } = require('discord.js');
+const { MessageType, EmbedBuilder, codeBlock, time, Events, Collection, AttachmentBuilder } = require('discord.js');
 const afk = require("../schema/afkschema")
 const register = require('../helpers/register');
 const { token } = require("../config.json")
+const Canvas = require('@napi-rs/canvas');
+const { request } = require('undici');
+const fs = require('fs');
+const path = require('node:path');
+
 
 
 const botevents = ({ client, commands }) => {
@@ -77,6 +82,9 @@ const botevents = ({ client, commands }) => {
     client.once(Events.ClientReady, c => {
         return console.log(`Ready! Logged in as ${c.user.tag}`);
     });
+
+
+
 
     client.on("messageCreate", async (message) => {
         const lol = await afk.findOneAndDelete({ userid: message.author.id, guildid: message.guild.id })

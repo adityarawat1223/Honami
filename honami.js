@@ -14,7 +14,7 @@ cron.schedule('5 * * * *', () => {
 });
 
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent], presence: { status: 'dnd', activities: [{ name: "Bursting TreeHouse", type: ActivityType.Competing }] } });
 
 
 const fs = require('node:fs');

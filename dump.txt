@@ -1,4 +1,4 @@
-const EMOJIREGEX = /<?(a)?:(\w{2,32}):(\d{17,19})?>?/;
+kconst EMOJIREGEX = /<?(a)?:(\w{2,32}):(\d{17,19})?>?/;
         var emojis = message.content.match(EMOJIREGEX);
         if (emojis) {
             const text = client.emojis.cache.get(emojis[3])
